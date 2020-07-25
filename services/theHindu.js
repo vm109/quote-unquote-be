@@ -9,10 +9,15 @@ const theHindu_rss = {
 const read_hindu = async (category)=>{
     try{
     const rss = await feed.load(theHindu_rss[category])
-    await polly_reader.speak(website, rss.items[0]['created'],rss.items[0]['title'])
+    rss.items.forEach(async (item) => {
+        try{
+        await polly_reader.speak(website, item['created'],item['title']) 
+        }catch(e){
+            return new Error(e)
+        }
+    });
     return rss
     }catch(e){
-        console.log(e)
         return new Error(e)
     }
 }

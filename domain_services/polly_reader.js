@@ -35,21 +35,8 @@ const speak = async (website,date,headline)=>{
     const params = create_params(headline)
     const audio_processed = await util.promisify(polly.synthesizeSpeech.bind(polly))(params)
     if( audio_processed && audio_processed.AudioStream && audio_processed.AudioStream instanceof Buffer){
-        // fs.writeFile('./audio.mp3', audio_processed.AudioStream, (err)=>{
-        //     if(err){
-        //         console.log(err)
-        //     }else{
-        //         console.log('audio file saved')
-        //     }
-        // })
         s3.writeAudioFile(website, date, headline, audio_processed.AudioStream)
     }
-
-//    const audio_processed1 = await util.promisify(polly.synthesizeSpeech.bind(polly))(create_speak_params(text))
-//     const bufferStream = new Stream.PassThrough()
-//     bufferStream.end(audio_processed1.AudioStream)
-//     bufferStream.pipe(play)
-
 }
 
 module.exports = {
