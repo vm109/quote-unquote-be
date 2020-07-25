@@ -6,8 +6,6 @@ const s3 = new AWS.S3()
 const Bucket="quote-unquote"
 
 const writeAudioFile =  (website, date, headline, audioBlob)=>{
-    readObjectsS3('today')
-    signedUrlS3('hindu/today/hindu_99_1595147517000.mp3')
     const params = {
         Bucket,
         Key: `${website}/${determineRelativeTime(date)}/${createAwsS3Key(website, date, headline)}`,
@@ -50,29 +48,43 @@ const createAwsS3Key = (website_name, date, headline)=>{
 return `${website_name}_${headline.length}_${date}.mp3`
 }
 
-const readObjectsS3 = (day)=>{
+const list_objects = async ()=>{
  const read_params = {
      Bucket
  }
 
- s3.listObjectsV2(read_params, (err, data)=>{
-    if(err){
-        console.log(err)
-    }else{
-        console.log(data)
-    }
- })
+ try{
+ const keys = []    
+ const records = await s3.listObjectsV2(read_params).promise()
+ records.Contents.forEach(record => {
+     keys.push(record.Key)
+ });
+ return keys
+ }catch(e){
+     return new Error("Error listing objects in bucket")
+ }
 }
 
 
 const signedUrlS3 = (Key)=>{
     const signed_url_params= {
         Bucket, 
-        Key
+        Key,
+        Expires: 500
     }
-    const signed_url = s3.getSignedUrl('getObject', signed_url_params)
-    console.log(signed_url)
+    const signed_url = s3.getSignedUrl('getObject', signed_url_params) 
+    return signed_url
+}
+
+const streamAudio = (Key)=>{
+const streaming_params = {
+    Bucket, 
+    Key
+}
+
 }
 module.exports = {
-    writeAudioFile
+    writeAudioFile,
+    list_objects,
+    signedUrlS3
 }
