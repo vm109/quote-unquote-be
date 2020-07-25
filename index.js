@@ -26,6 +26,5 @@ app.use('/',google_auth)
 app.use('/',welcome)
 app.use('/',theHindu)
 app.listen(port,()=>{
-    console.log(process.env)
     console.log('quote-unquote started running on 8080')
 })

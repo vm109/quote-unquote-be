@@ -12,7 +12,9 @@
   "dependencies": {
     "aws-sdk": "^2.713.0",
     "dotenv": "^8.2.0",
+    "epoch-timeago": "^1.1.9",
     "express": "^4.17.1",
+    "javascript-time-ago": "^2.0.12",
     "no-gyp-xml-stream": "^1.0.3",
     "node-gyp": "^7.0.0",
     "node-gyp-build": "^4.2.2",
