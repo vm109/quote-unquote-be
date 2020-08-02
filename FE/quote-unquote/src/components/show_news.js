@@ -1,21 +1,23 @@
 import React,{Component} from 'react'
 
-class HinduNews extends Component{
+class NewsPage extends Component{
     constructor(props){
         super(props)
         this.state = {
             isLoaded: false,
-            audio: []
+            audio: [],
+            website_details:{}
         }
     }
 
     
     async componentDidMount(){
-        const records = await fetch(`${process.env.REACT_APP_BE_HOST}/s3/getrecords`)
+        
+        this.setState({...this.state, website_details: this.props.location.state})
+        const records = await fetch(`${process.env.REACT_APP_BE_HOST}/s3/getrecords/${this.props.location.state.website_slug}/?category=national`)
         const audioList = await this.getAudioList(await records.json())
-        console.log(audioList)
-        this.setState({audio: audioList, isLoaded: true, })
-
+        this.setState({...this.state,audio: audioList, isLoaded: true })
+        
     }
 
     async getSecuredLink(key){
@@ -42,11 +44,11 @@ class HinduNews extends Component{
     render(){
         return <>
         <div>
-            Listen to Hindu
+        <p>Listen to {this.state.website_details.website_name}</p>
         </div>
     <ul>{this.state.audio}</ul>
         </>
     }
 }
 
-export default HinduNews
+export default NewsPage

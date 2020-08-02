@@ -6,8 +6,9 @@ const passport = require('passport')
 const welcome = require('./routes/welcome')
 const google_auth_setup = require('./auth/authenticate_config')
 const google_auth = require('./routes/auth')
-const theHindu = require('./routes/theHindu')
-const s3Service = require('./routes/s3service')
+const theHindu = require('./routes/read_paper_route')
+const s3Service = require('./routes/s3_service_route')
+const utilService = require('./routes/util_service')
 const port = 8080
 
 const whitelist = ['/']
@@ -29,6 +30,7 @@ app.use('/',google_auth)
 app.use('/',welcome)
 app.use('/',theHindu)
 app.use('/s3', s3Service)
+app.use('/', utilService)
 app.listen(port,()=>{
     console.log('quote-unquote started running on 8080')
 })

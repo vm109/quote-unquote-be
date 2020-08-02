@@ -1,6 +1,14 @@
 import React from 'react';
 import './App.css';
-import HinduNews from './components/show_hindu_news';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from 'react-router-dom'
+import HomePage from './components/home_page';
+import NewsPage from './components/show_news';
 
 function App() {
   return (
@@ -8,7 +16,16 @@ function App() {
       <header className="App-header">
        quote-unquote
       </header>
-      <div><HinduNews/></div>
+      <a href='/' display="block">HOME </a>
+      <a href='/hindu'> HINDU</a>
+      <a href="/washpost"> Washington Post</a>
+      <Router>
+        <switch> 
+          <Route exact path="/" component={HomePage}></Route>
+          <Route exact path="/hindu" component={NewsPage}></Route>
+          <Route exact path="/washpost" component={NewsPage}></Route>
+        </switch>
+      </Router>
     </div>
   );
 }

@@ -1,21 +1,19 @@
 const AWS = require('aws-sdk')
-const epoch_ago = require('javascript-time-ago')
-const en = require('javascript-time-ago/locale/en')
 const s3 = new AWS.S3()
 
 const Bucket="quote-unquote"
 
-const writeAudioFile =  (website, date, headline, audioBlob)=>{
+const writeAudioFile =  (website, category, date, headline, audioBlob)=>{
     const params = {
         Bucket,
-        Key: `${website}/${determineRelativeTime(date)}/${createAwsS3Key(website, date, headline)}`,
+        Key: `${website}/${category}/${determineRelativeTime(date)}/${createAwsS3Key(website, date, headline)}`,
         Body: audioBlob
     }
     s3.upload(params, (err, data)=>{
         if(err){
-            console.log(err)
+            throw new Error(`error while uploading to s3 ${website} ${category}`)
         }else{
-            console.log(data)
+            console.log(`data upload success for ${website} ${category}`)
         }
     })
 }
@@ -48,9 +46,10 @@ const createAwsS3Key = (website_name, date, headline)=>{
 return `${website_name}_${headline.length}_${date}.mp3`
 }
 
-const list_objects = async ()=>{
+const list_objects = async (website,category)=>{
  const read_params = {
-     Bucket
+     Bucket,
+     Prefix: `${website}/${category}`
  }
 
  try{
@@ -76,13 +75,7 @@ const signedUrlS3 = (Key)=>{
     return signed_url
 }
 
-const streamAudio = (Key)=>{
-const streaming_params = {
-    Bucket, 
-    Key
-}
 
-}
 module.exports = {
     writeAudioFile,
     list_objects,
