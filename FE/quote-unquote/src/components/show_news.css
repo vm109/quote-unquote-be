@@ -1,0 +1,23 @@
+.news_row{
+    width: 40%;
+    float: left;
+    padding: 10px;
+    border: solid;
+    margin: 2%;
+}
+
+audio{
+    width: 100%;
+}
+
+.description, .source_url{
+    width: 100%;
+}
+
+.source_url .btn .btn-warning{
+    background-color: #fff000;
+}
+
+.news_title{
+    width: 100%;
+}

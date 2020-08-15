@@ -1,8 +1,9 @@
 const routes = require('express').Router()
 
 website_cache = [
-{name:'The Hindu', location:'/hindu', slug: 'hindu'},
-{name:'The Washington Post', location:'/washpost', slug: 'washpost'}]
+{name:'The Hindu', location:'/hindu', slug: 'hindu', categories: []},
+{name:'The Washington Post', location:'/washpost', slug: 'washpost'},
+{name:'The NewYork Times', location:'/nyctimes', slug:'tnytimes'}]
 
 find_websites_cache = ()=>{
     if(website_cache.length > 0){

@@ -3,19 +3,14 @@ const s3 = new AWS.S3()
 
 const Bucket="quote-unquote"
 
-const writeAudioFile =  (website, category, date, headline, audioBlob)=>{
+const writeAudioFile = async (website, category, date, headline, audioBlob)=>{
     const params = {
         Bucket,
         Key: `${website}/${category}/${determineRelativeTime(date)}/${createAwsS3Key(website, date, headline)}`,
         Body: audioBlob
     }
-    s3.upload(params, (err, data)=>{
-        if(err){
-            throw new Error(`error while uploading to s3 ${website} ${category}`)
-        }else{
-            console.log(`data upload success for ${website} ${category}`)
-        }
-    })
+    const data = await s3.upload(params).promise() 
+    return data.key
 }
 
 const determineRelativeTime = (published_date)=>{

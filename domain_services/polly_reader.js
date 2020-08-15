@@ -11,16 +11,25 @@ const create_params =(text)=> {
     return {
     Text: text,
     OutputFormat: 'mp3',
-    VoiceId: 'Aditi'
+    VoiceId: 'Amy',
+    Engine:'neural'
     }
 }
 
 const speak = async (website, category, date,headline)=>{
     const params = create_params(headline)
-    const audio_processed = await util.promisify(polly.synthesizeSpeech.bind(polly))(params)
-    if( audio_processed && audio_processed.AudioStream && audio_processed.AudioStream instanceof Buffer){
-        s3.writeAudioFile(website, category, date, headline, audio_processed.AudioStream)
+    let audio_processed
+    try{
+    // audio_processed = await util.promisify(polly.synthesizeSpeech.bind(polly))(params)
+    }catch(e){
+        console.log("Failed to process speech")
+        console.log
     }
+    if( audio_processed && audio_processed.AudioStream && audio_processed.AudioStream instanceof Buffer){
+       return await s3.writeAudioFile(website, category, date, headline, audio_processed.AudioStream)
+    }
+    console.log(`failed to create audio file for ${website} ${category} ${headline}`)
+    return null
 }
 
 module.exports = {

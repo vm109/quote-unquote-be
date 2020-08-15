@@ -29,8 +29,9 @@ routes.get('/readpaper/:website', (req, res, next) => {
         rss_link = RSS[website][category]
     }
 
-    readPaper.read_paper(rss_link,website, category).then(rss => res.send(rss)
-    ).catch(err => res.send(err))
+    readPaper.read_paper(rss_link,website, category).then(rss => {
+        res.send(rss)
+    }).catch(err => res.send(err))
 
 })
 

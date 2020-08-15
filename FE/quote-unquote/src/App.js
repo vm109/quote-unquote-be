@@ -17,8 +17,6 @@ function App() {
        quote-unquote
       </header>
       <a href='/' display="block">HOME </a>
-      <a href='/hindu'> HINDU</a>
-      <a href="/washpost"> Washington Post</a>
       <Router>
         <switch> 
           <Route exact path="/" component={HomePage}></Route>
